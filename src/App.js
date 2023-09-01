@@ -1,11 +1,10 @@
 
-import { useState } from 'react';
 import './App.css';
 import Expenses from './components/Expenses';
 
 function App() {
 
-  const initialexpenses = [
+  const expenses = [
     {
         id: 'e1',
         title: 'Toilet Paper',
@@ -27,19 +26,11 @@ function App() {
     },
 ];
 
-const [expenses, setExpenses] = useState(initialexpenses);
-
-const deleteExpenseHandler = (expenseId) => {
-  setExpenses((prevExpenses) =>
-    prevExpenses.filter((expense) => expense.id !== expenseId)
-  );
-};
-
 
   return (
     <div>
     <h2>Let's get started</h2>
-<Expenses items={expenses} onDelete={deleteExpenseHandler}/>
+<Expenses items={expenses} />
 </div>
   );
 }
