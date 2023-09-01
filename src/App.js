@@ -31,8 +31,7 @@ function App() {
 const [UpdatedExpenses, setUpdatedExpenses] = useState(expenses)
 
 const addExpensehandler = (expense) =>{
-  console.log(expense)
-  setUpdatedExpenses((prevExpenses) => [...prevExpenses, expense]);
+  setUpdatedExpenses((prevExpenses) => [expense, ...prevExpenses]);
 }
 
   return (
