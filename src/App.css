@@ -1,0 +1,30 @@
+.AppContainer{
+  width: 20rem;
+  height: 30rem;
+  border-radius: 10px;
+  background-color: black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.light{
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  background-color: gray;
+  margin: 1rem 0;
+}
+
+.red{
+  background-color: red;
+}
+
+.yellow{
+  background-color: yellow;
+}
+
+.green{
+  background-color: green;
+}

@@ -1,22 +1,42 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import FoemInput from "./components/FoemInput";
+import Orders from "./components/Orders";
 
-import Login from './components/Login/Login';
-import Home from './components/Home/Home';
-import MainHeader from './components/MainHeader/MainHeader';
-import AuthContext from './components/store/auth-context';
+
 
 function App() {
 
- const ctx = useContext(AuthContext)
+  const [orders, setOrders] = useState([]);
+
+  useEffect(() => {
+    const savedOrders = JSON.parse(localStorage.getItem("orders")) || [];
+    setOrders(savedOrders);
+  }, []);
+
+  const handleAddToBill = (orderData) => {
+    const updatedOrders = [...orders, orderData];
+    setOrders(updatedOrders);
+    localStorage.setItem("orders", JSON.stringify(updatedOrders));
+  };
+
+  const handleUpdateOrders = (updatedOrders) => {
+
+    setOrders(updatedOrders);
+    localStorage.setItem("orders", JSON.stringify(updatedOrders));
+  };
 
   return (
-    <>
-      <main>
-        {!ctx.isLoggedIn && <Login  />}
-        {ctx.isLoggedIn && <Home />}
-      </main>
-      </>
+    <div>
+<FoemInput onAddToBill={handleAddToBill}/>
+<Orders orders={orders} updateOrdersInLocalStorage={handleUpdateOrders}/>
+    </div>
   );
 }
 
 export default App;
+
+
+
+
+
+
