@@ -1,0 +1,11 @@
+.main{
+    display: flex;
+    justify-content: space-between;
+}
+.check-box{
+    display: flex;
+}
+
+.size input{
+width: 30px;
+}
