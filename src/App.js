@@ -1,14 +1,17 @@
 
 import './App.css';
-import { CartProvider } from './Components/CartContext';
-import Seller from './Components/Seller';
+import Card from './Component/Card';
+import Footer from './Component/Footer';
+import Heading from './Component/Heading';
+import Navbar from './Component/Navbar';
 
 function App() {
   return (
     <div className="App">
-      <CartProvider>
-     <Seller/>
-     </CartProvider>
+  <Navbar/>
+  <Heading/>
+  <Card/>
+  <Footer/>
     </div>
   );
 }
