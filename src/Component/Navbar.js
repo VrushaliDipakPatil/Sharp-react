@@ -1,10 +1,13 @@
 import React, { useState } from "react";
 import Cart from "./Cart";
 import { Link } from "../../node_modules/react-router-dom/dist/index";
+import { useCart } from "./CartContext";
 
 const Navbar = () => {
-  const [showCart, setShowCart] = useState(false);
 
+  const { cart } = useCart();
+  const [showCart, setShowCart] = useState(false);
+ 
   const toggleCart = () => {
     setShowCart(!showCart);
   };
@@ -52,7 +55,7 @@ const Navbar = () => {
           >
             cart
             <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-              0
+            {cart.length}
             </span>
           </button>
         </div>

@@ -1,6 +1,23 @@
 import React from 'react';
+import { useCart } from './CartContext';
 
 const Card = () => {
+
+  const { cart, addToCart } = useCart();
+
+  const handleAddToCart = (product) => {
+    const itemInCart = cart.find((item) => item.title === product.title);
+
+    if (itemInCart) {
+      // If the item is already in the cart, show an alert
+      window.alert('Item is already in the cart');
+    } else {
+      // If the item is not in the cart, add it with quantity 1
+      addToCart({ ...product, quantity: 1 });
+    }
+  };
+  
+
   const productsArr = [
     {
       title: 'Colors',
@@ -37,7 +54,7 @@ const Card = () => {
               </div>
               <div className="card-footer">
                 <p className="card-text">Price: ${product.price}</p>
-                <button className="btn btn-primary btn-sm float-end">Add to Cart</button>
+                <button className="btn btn-primary btn-sm float-end" onClick={() => handleAddToCart(product)}>Add to Cart</button>
               </div>
             </div>
           </div>

@@ -1,80 +1,61 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
+import { useCart } from "./CartContext";
 
 const Cart = ({ showCart, handleClose }) => {
-  const cartElements = [
-    {
-      title: "Colors",
+  const { cart, removeFromCart } = useCart();
 
-      price: 100,
+  const calculateTotal = () => {
+    // Calculate the total price of items in the cart
+    return cart.reduce((total, item) => total + item.price, 0);
+  };
 
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%201.png",
-
-      quantity: 2,
-    },
-
-    {
-      title: "Black and white Colors",
-
-      price: 50,
-
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%202.png",
-
-      quantity: 3,
-    },
-
-    {
-      title: "Yellow and Black Colors",
-
-      price: 70,
-
-      imageUrl:
-        "https://prasadyash2411.github.io/ecom-website/img/Album%203.png",
-
-      quantity: 1,
-    },
-  ];
+  const removeItem = (index) =>{
+    removeFromCart(index)
+  }
 
   return (
-    <Modal show={showCart} onHide={handleClose} dialogClassName="modal-right">
+    <Modal show={showCart} onHide={handleClose} dialogClassName="modal-right modal-lg">
       <Modal.Header closeButton>
         <Modal.Title>Shopping Cart</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="container">
-          <div className="row">
-            <div className="col">
-              <h6>Item</h6>
-            </div>
-            <div className="col">
-              <h6>Price</h6>
-            </div>
-            <div className="col">
-              <h6>Quantity</h6>
-            </div>
-          </div>
-          {cartElements.map((item, index) => (
-            <div className="row" key={index}>
-              <div className="col">
-                <span>{item.title}</span>
+          {cart.map((item, index) => (
+            <div className="row my-2" key={index}>
+              <div className="col-2">
+                <img
+                  src={item.imageUrl}
+                  alt={item.title}
+                  className="img-fluid"
+                  style={{ maxHeight: "100px", maxWidth: "100px" }}
+                />
               </div>
-              <div className="col">${item.price}</div>
-              <div className="col">{item.quantity}</div>
+              <div className="col-4">
+                <h6>{item.title}</h6>
+              </div>
+              <div className="col-2">
+                <span>${item.price}</span>
+              </div>
+              <div className="col-2">
+                <span>{item.quantity}</span>
+              </div>
+              <div className="col-2">
+                <Button variant="danger" onClick={()=>removeItem(index)}>Remove</Button>
+              </div>
+              <hr />
             </div>
           ))}
-                    <hr />
           <div className="row">
             <div className="col text-end">
-              <h6>Total: $0</h6>
+              <h6>Total: ${calculateTotal()}</h6>
             </div>
           </div>
         </div>
       </Modal.Body>
       <Modal.Footer>
         <Button variant="secondary" onClick={handleClose}>
-          Cancle
+          Cancel
         </Button>
         <Button variant="primary">Purchase</Button>
       </Modal.Footer>
