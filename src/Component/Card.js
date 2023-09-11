@@ -1,5 +1,6 @@
 import React from 'react';
 import { useCart } from './CartContext';
+import Heading from './Heading';
 
 const Card = () => {
 
@@ -36,6 +37,7 @@ const Card = () => {
 
   return (
     <>
+    <Heading/>
     <div className="container py-4">
       <div className="row">
         {productsArr.map((product, index) => (

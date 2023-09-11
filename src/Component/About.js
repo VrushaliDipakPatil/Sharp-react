@@ -1,7 +1,10 @@
 import React from "react";
+import Heading from "./Heading";
 
 const About = () => {
   return (
+    <>
+    <Heading/>
     <div className="container">
       <div className="row">
         <div className="col-md-5 d-flex align-items-center">
@@ -50,6 +53,7 @@ const About = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 
