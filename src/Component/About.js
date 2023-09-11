@@ -4,7 +4,7 @@ const About = () => {
   return (
     <div className="container">
       <div className="row">
-        <div className="col-md-5">
+        <div className="col-md-5 d-flex align-items-center">
           {/* Image in a circular shape */}
           <div
             className="d-flex justify-content-center align-items-center rounded-circle mx-auto"

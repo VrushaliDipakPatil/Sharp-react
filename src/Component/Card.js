@@ -3,7 +3,7 @@ import { useCart } from './CartContext';
 
 const Card = () => {
 
-  const { cart, addToCart } = useCart();
+  const { addToCart } = useCart();
 
   const handleAddToCart = (product) => {
    addToCart(product)
