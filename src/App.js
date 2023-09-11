@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import MoviesList from "./components/MoviesList";
 import "./App.css";
@@ -6,15 +6,33 @@ import "./App.css";
 function App() {
   const [movies, setMovies] = useState([]);
   const [isLoading, setisLoading] = useState(false);
-  const [errormessagge, setError] = useState(null)
+  const [errormessagge, setError] = useState(null);
+  const [retry, setRetry] = useState(false);
+
+  useEffect(()=>{
+    if (retry) {
+      const retryInterval = setInterval(() => {
+        fetchMoviesHandler();
+      }, 5000);
+
+      return () => {
+        clearInterval(retryInterval);
+      };
+    }
+  },[retry])
+
+function handleCancel(){
+  setRetry(false);
+}
 
   async function fetchMoviesHandler() {
     try {
       setisLoading(true)
       setError(null);
-      const response = await fetch("https://swapi.dev/api/films/");
+      const response = await fetch("https://swapi.dev/api/film/");
       if (!response.ok) {
-        throw new Error("Something went wrong!");
+        setRetry(true)
+        throw new Error("Something went wrong.....Retrying!");       
       }
       const data = await response.json();
       const transformedData = data.results.map((data) => {
@@ -52,6 +70,7 @@ function App() {
       </section>
       <section>
        {content}
+       {retry && <button onClick={handleCancel} >cancel Retrying</button>}
       </section>
     </React.Fragment>
   );
