@@ -7,7 +7,7 @@ const Cart = ({ showCart, handleClose }) => {
 
   const calculateTotal = () => {
     // Calculate the total price of items in the cart
-    return cart.reduce((total, item) => total + item.price, 0);
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   const removeItem = (index) =>{
