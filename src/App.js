@@ -1,27 +1,25 @@
-import { Route, Routes } from 'react-router-dom';
-import './App.css';
-import Card from './Component/Card';
-import Footer from './Component/Footer';
-import Navbar from './Component/Navbar';
-import Home from './Component/Home';
-import About from './Component/About';
-import ContactUs from './Component/ContactUs';
-import CardDetail from './Component/CardDetail';
+import { Switch, Route } from 'react-router-dom';
+
+import Layout from './components/Layout/Layout';
+import UserProfile from './components/Profile/UserProfile';
+import AuthPage from './pages/AuthPage';
+import HomePage from './pages/HomePage';
 
 function App() {
   return (
-    <div className="App">
-      <Navbar />
-      <Routes>
-          <Route path="/home" exact element={<Home/>} />
-          <Route path="/" element={<Card/>} />
-          <Route path="/about" element={<About/>} />
-          <Route path="/contact" element={<ContactUs/>} />
-          <Route path="/:productId" element={<CardDetail/>} />
-          </Routes>
-        <Footer />
- 
-    </div>
+    <Layout>
+      <Switch>
+        <Route path='/' exact>
+          <HomePage />
+        </Route>
+        <Route path='/auth'>
+          <AuthPage />
+        </Route>
+        <Route path='/profile'>
+          <UserProfile />
+        </Route>
+      </Switch>
+    </Layout>
   );
 }
 
