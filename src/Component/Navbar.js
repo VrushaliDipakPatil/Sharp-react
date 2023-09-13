@@ -8,16 +8,30 @@ const Navbar = () => {
 
   const authCtx = useContext(AuthContext)
 
+  const [cartData, setCartData] = useState([]);
+
   const { cart } = useCart();
   const [showCart, setShowCart] = useState(false);
  
   const toggleCart = () => {
+    getCartData()
     setShowCart(!showCart);
   };
 
   const handleCloseCart = () => {
     setShowCart(false);
   };
+
+  const getCartData =()=>{
+    let emailid = "test1gmailcom";
+    fetch(
+      `https://crudcrud.com/api/e415a7cfb2774ac2aab845aaf3068416/cart${emailid}`
+    )
+      .then((response) => response.json())
+      .then((data) => setCartData(data));
+  }
+
+
 
   return (
     <>
@@ -82,7 +96,7 @@ const Navbar = () => {
           </button>
         </div>
       </nav>
-      <Cart showCart={showCart} handleClose={handleCloseCart} />
+      <Cart showCart={showCart} handleClose={handleCloseCart} cartData={cartData}/>
     </>
   );
 };

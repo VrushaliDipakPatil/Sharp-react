@@ -9,7 +9,20 @@ const Card = () => {
   const { addToCart } = useCart();
 
   const handleAddToCart = (product) => {
-   addToCart(product)
+    let emailid = 'test1gmailcom';
+fetch(`https://crudcrud.com/api/e415a7cfb2774ac2aab845aaf3068416/cart${emailid}`, {
+  headers: { "Content-Type": "application/json; charset=utf-8" },
+  method: 'POST',
+  body: JSON.stringify({
+    productId:product.productId,
+      title: product.title,
+      price: product.price,
+      imageUrl: product.imageUrl,
+  })
+})
+.then(response => response.json())
+.then(data => console.log(data))
+  //  addToCart(product)
 
   };
   

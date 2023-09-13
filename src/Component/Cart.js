@@ -1,27 +1,32 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import { useCart } from "./CartContext";
 
-const Cart = ({ showCart, handleClose }) => {
+const Cart = ({ showCart, handleClose, cartData }) => {
+
   const { cart, removeFromCart } = useCart();
 
   const calculateTotal = () => {
     // Calculate the total price of items in the cart
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cartData.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
-  const removeItem = (index) =>{
-    removeFromCart(index)
-  }
+  const removeItem = (index) => {
+    removeFromCart(index);
+  };
 
   return (
-    <Modal show={showCart} onHide={handleClose} dialogClassName="modal-right modal-lg">
+    <Modal
+      show={showCart}
+      onHide={handleClose}
+      dialogClassName="modal-right modal-lg"
+    >
       <Modal.Header closeButton>
         <Modal.Title>Shopping Cart</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <div className="container">
-          {cart.map((item, index) => (
+          {cartData.map((item, index) => (
             <div className="row my-2" key={index}>
               <div className="col-2">
                 <img
@@ -41,7 +46,9 @@ const Cart = ({ showCart, handleClose }) => {
                 <span>{item.quantity}</span>
               </div>
               <div className="col-2">
-                <Button variant="danger" onClick={()=>removeItem(index)}>Remove</Button>
+                <Button variant="danger" onClick={() => removeItem(index)}>
+                  Remove
+                </Button>
               </div>
               <hr />
             </div>
