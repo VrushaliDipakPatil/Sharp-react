@@ -8,7 +8,7 @@ const Cart = ({ showCart, handleClose, cartData }) => {
 
   const calculateTotal = () => {
     // Calculate the total price of items in the cart
-    return cartData.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
   };
 
   const removeItem = (index) => {
@@ -26,7 +26,7 @@ const Cart = ({ showCart, handleClose, cartData }) => {
       </Modal.Header>
       <Modal.Body>
         <div className="container">
-          {cartData.map((item, index) => (
+          {cart.map((item, index) => (
             <div className="row my-2" key={index}>
               <div className="col-2">
                 <img

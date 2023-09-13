@@ -22,7 +22,7 @@ fetch(`https://crudcrud.com/api/e415a7cfb2774ac2aab845aaf3068416/cart${emailid}`
 })
 .then(response => response.json())
 .then(data => console.log(data))
-  //  addToCart(product)
+   addToCart(product)
 
   };
   
