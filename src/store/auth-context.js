@@ -18,33 +18,13 @@ export const AuthContextProvider = (props) => {
     localStorage.setItem("sharp-token", token);
     setToken(token);
 
-    const timer = setTimeout(() => {
-      LogoutHandler();
-    }, 300000); // 5 minutes in milliseconds
-
-    setLogoutTimer(timer);
   };
 
   const LogoutHandler = () => {
     setToken(null);
     localStorage.removeItem("sharp-token");
 
-    if (logoutTimer) {
-        clearTimeout(logoutTimer);
-      }
-  
   };
-
-  useEffect(() => {
-    if (userIsLoggedIn) {
-      // Set a new logout timer when the token changes
-      const timer = setTimeout(() => {
-        LogoutHandler();
-      }, 300000); // 5 minutes in milliseconds
-
-      setLogoutTimer(timer);
-    }
-  }, [userIsLoggedIn, token]);
 
   const contextValue = {
     token: token,

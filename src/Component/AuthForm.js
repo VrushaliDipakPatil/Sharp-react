@@ -1,10 +1,12 @@
 import { useContext, useState } from "react";
 import classes from "./AuthForm.module.css";
 import AuthContext from "../store/auth-context";
+import { useNavigate } from "../../node_modules/react-router-dom/dist/index";
 
 
 const AuthForm = () => {
   // const history = useHistory();
+  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoding, setIsLoding] = useState(false);
   const [user, setUser] = useState({
@@ -21,6 +23,10 @@ const AuthForm = () => {
       [name]: value,
     });
   };
+
+  const handleNavigate=()=>{
+    navigate("/store");
+  }
 
   const SubmitHandler = (event) => {
     event.preventDefault();
@@ -60,7 +66,10 @@ const AuthForm = () => {
       })
       .then((data) => {
         authCtx.login(data.idToken)
-        console.log(data.idToken)
+        setTimeout(() => {
+          handleNavigate();
+        }, 1000);
+       
         // history.replace('/');
       })
       .catch((err) => {
