@@ -1,37 +1,31 @@
-import { Switch, Route } from "react-router-dom";
-
-import Layout from "./components/Layout/Layout";
-import UserProfile from "./components/Profile/UserProfile";
-import AuthPage from "./pages/AuthPage";
-import HomePage from "./pages/HomePage";
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import Card from "./Component/Card";
+import Footer from "./Component/Footer";
+import Navbar from "./Component/Navbar";
+import Home from "./Component/Home";
+import About from "./Component/About";
+import ContactUs from "./Component/ContactUs";
+import CardDetail from "./Component/CardDetail";
+import AuthForm from "./Component/AuthForm";
 import { useContext } from "react";
 import AuthContext from "./store/auth-context";
-import { Redirect } from "../node_modules/react-router-dom/cjs/react-router-dom.min";
 
 function App() {
   const authCtx = useContext(AuthContext);
   return (
-    <Layout>
-      <Switch>
-        <Route path="/" exact>
-          <HomePage />
-        </Route>
-        {!authCtx.isLoggedIn && (
-          <Route path="/auth">
-            <AuthPage />
-          </Route>
-        )}
-
-        <Route path="/profile">
-          {authCtx.isLoggedIn && <UserProfile />}
-          {!authCtx.isLoggedIn && <Redirect to="/auth"></Redirect>}
-        </Route>
-
-        <Route path="*">
-          <Redirect to="/" />
-        </Route>
-      </Switch>
-    </Layout>
+    <div className="App">
+      <Navbar />
+      <Routes>
+        <Route path="/home" exact element={<Home />} />
+        {authCtx.isLoggedIn && <Route path="/store" element={<Card />} />}
+        <Route path="/" element={<About />} />
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/auth" element={<AuthForm />} />
+        <Route path="/:productId" element={<CardDetail />} />
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 
