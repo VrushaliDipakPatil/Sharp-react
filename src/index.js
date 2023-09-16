@@ -3,24 +3,11 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
-import 'bootstrap/dist/js/bootstrap.bundle.min.js'; // Import Bootstrap JavaScript
-import { BrowserRouter } from 'react-router-dom';
-import { CartProvider } from './Component/CartContext';
-import { AuthContextProvider } from './store/auth-context';
-
-
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-    <AuthContextProvider>
-    <CartProvider>
     <App />
-    </CartProvider>
-    </AuthContextProvider>
-    </BrowserRouter>
   </React.StrictMode>
 );
 
