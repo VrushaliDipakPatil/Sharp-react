@@ -1,11 +1,13 @@
+
 import "./App.css";
-import AddMedicine from "./Components/AddMedicine";
-import BuyMedicine from "./Components/BuyMedicine";
+import AuthForm from "./Component/AuthForm";
+
 
 function App() {
+
   return (
     <div className="App">
-      <AddMedicine />
+<AuthForm/>
     </div>
   );
 }
