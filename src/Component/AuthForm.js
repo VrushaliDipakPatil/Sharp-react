@@ -1,11 +1,8 @@
 import { useContext, useState } from "react";
 import classes from "./AuthForm.module.css";
 import AuthContext from "../store/auth-context";
-import { useNavigate } from "../../node_modules/react-router-dom/dist/index";
 
 const AuthForm = () => {
-  // const history = useHistory();
-  const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(true);
   const [isLoding, setIsLoding] = useState(false);
   const [user, setUser] = useState({
