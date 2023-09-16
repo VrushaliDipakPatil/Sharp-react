@@ -24,14 +24,11 @@ const AuthForm = () => {
     });
   };
 
-  const handleNavigate = () => {
-    // navigate("/store");
-  };
 
   const SubmitHandler = (event) => {
     event.preventDefault();
     setIsLoding(true);
-    if (user.password !== user.conpassword) {
+    if (!isLogin && user.password !== user.conpassword) {
       alert("Password fields are not matching....");
     } else {
       let url;
@@ -69,10 +66,6 @@ const AuthForm = () => {
         })
         .then((data) => {
           authCtx.login(data.idToken);
-          setTimeout(() => {
-            handleNavigate();
-          }, 1000);
-
         })
         .catch((err) => {
           alert(err.message);
@@ -110,24 +103,34 @@ const AuthForm = () => {
             required
           />
         </div>
-        <div className={classes.control}>
-          <label htmlFor="conpassword">Confirm Password</label>
-          <input
-            type="password"
-            id="password"
-            name="conpassword"
-            value={user.conpassword}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div></div>
+        {!isLogin && (
+          <div className={classes.control}>
+            <label htmlFor="conpassword">Confirm Password</label>
+            <input
+              type="password"
+              id="password"
+              name="conpassword"
+              value={user.conpassword}
+              onChange={handleChange}
+              required
+            />
+          </div>
+        )}
+
         <div className={classes.actions}>
           {isLoding ? (
             "Sending Request...."
           ) : (
             <button>{isLogin ? "Login" : "Create Account"}</button>
           )}
+
+          <button
+            type="button"
+            className={classes.toggle}
+            style={{color:"blue"}}
+          >
+            {isLogin && "Forgot Password"}
+          </button>
 
           <button
             type="button"
