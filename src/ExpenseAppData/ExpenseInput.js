@@ -102,7 +102,7 @@ const ExpenseInput = () => {
           <button className="add-button">Add Expense</button>
         </div>
       </form>
-      {expenseData.length > 0 ? (<ExpensesData data={expenseData} />) : ''}
+      {expenseData.length > 0 ? (<ExpensesData data={expenseData} fetchExpenseHandler={fetchExpenseHandler}/>) : ''}
       
     </>
   );

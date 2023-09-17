@@ -21,8 +21,19 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #ccc;
-    width: 50vw;
+    width: 60vw;
     text-align: center;
+  }
+
+  .expense-info input{
+    text-align: center;
+  }
+
+  .expense-info button{
+    background-color: rgb(196, 129, 47);
+    border-color: bisque;
+    border-radius: 10px;
+    color: white;
   }
   
   .expense-info div {
