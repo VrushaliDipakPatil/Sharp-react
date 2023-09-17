@@ -1,0 +1,36 @@
+.expense-item {
+    margin-top: 20px;
+    align-items: center;
+  }
+  
+  .expense-heading {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    width: 50vw;
+  }
+  .expense-heading div{
+    width: 15vw; 
+    text-align: center;
+  }
+  
+  .expense-info {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+    width: 50vw;
+    text-align: center;
+  }
+  
+  .expense-info div {
+    width: 15vw; 
+    text-align: center;
+  }
+  
+  .expense-info div:first-child {
+    text-align: center; 
+  }
+  
