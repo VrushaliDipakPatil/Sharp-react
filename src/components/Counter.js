@@ -8,11 +8,11 @@ const Counter = () => {
   const toggleCounterHandler = () => {};
 
   const incrementCounterHandler = () =>{
-    dispatch({type: 'incrementby2'})
+    dispatch({type: 'incrementby5'})
   };
 
   const decrementCounterHandler = () =>{
-    dispatch({type: 'decrementby2'})
+    dispatch({type: 'decrementby5'})
   };
 
   return (
