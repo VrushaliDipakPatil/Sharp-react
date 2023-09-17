@@ -2,7 +2,8 @@ import React from 'react'
 import './expensesedata.css'
 
 const ExpensesData = (props) => {
-    let data = props.data;
+    let data = props.data
+    console.log(data)
   return (
     <>
     <div className="expense-item">
@@ -11,13 +12,13 @@ const ExpensesData = (props) => {
         <div>Amount</div>
         <div>Category</div>
       </div>
-      {/* {data.map((expense, index) => ( */}
-        <div className="expense-info" >
-          <div>{data.expense}</div>
-          <div>{data.amount}</div>
-          <div>{data.category}</div>
+      {data.map((expense, index) => (
+        <div className="expense-info" key={index}>
+          <div>{expense.expense}</div>
+          <div>{expense.amount}</div>
+          <div>{expense.category}</div>
         </div>
-      {/* ))} */}
+      ))}
     </div>
     </>
   )
