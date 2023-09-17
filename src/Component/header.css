@@ -1,0 +1,25 @@
+
+  
+  .main-heading{
+  font-weight: bold;
+  font-size:xx-large;
+  color: brown;
+ 
+  }
+  
+  .main-header{
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      font-size:medium;
+      background-color: bisque;
+  }
+  
+  .logout-button{
+    background-color: rgb(211, 85, 85);
+    height: 50px;
+    width: 100px;
+    border-color: red;
+    color: white;
+    border-radius: 10px;
+  }
