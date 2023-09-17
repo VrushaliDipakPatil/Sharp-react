@@ -1,5 +1,5 @@
 import React, {  useState } from "react";
-import { useNavigate } from "../../node_modules/react-router-dom/dist/index";
+
 
 const AuthContext = React.createContext({
   token: "",
@@ -11,13 +11,11 @@ const AuthContext = React.createContext({
 export const AuthContextProvider = (props) => {
   const initalToken = localStorage.getItem("sharp-token");
   const [token, setToken] = useState(initalToken);
-const navigate = useNavigate()
   const userIsLoggedIn = !!token;
 
   const LogInHandler = (token) => {
     localStorage.setItem("sharp-token", token);
     setToken(token);
-navigate('/home')
   };
 
   const LogoutHandler = () => {

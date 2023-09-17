@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import "./updateprofile.css";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import LinkIcon from "@material-ui/icons/Link";
@@ -7,6 +7,10 @@ import { Link } from "../../node_modules/react-router-dom/dist/index";
 const UpdateProfile = () => {
   const nameRef = useRef();
   const profileRef = useRef();
+
+  useEffect(() => {
+    lookupData();
+  }, []);
 
   const SubmitHandler = (event) => {
     event.preventDefault();
@@ -47,6 +51,37 @@ const UpdateProfile = () => {
       });
   };
 
+  const lookupData = () => {
+    fetch(
+      "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyB7XEOc6O8Svn_udxhDjDsiXVK2J2lv66c",
+      {
+        method: "POST",
+        body: JSON.stringify({
+          idToken: localStorage.getItem("sharp-token"),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    )
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error("Failed to fetch profile data");
+        }
+        return res.json();
+      })
+      .then((data) => {
+        if (data?.users && data.users.length > 0) {
+          const user = data.users[0];
+          nameRef.current.value = user.displayName;
+          profileRef.current.value = user.photoUrl;
+        }
+      })
+      .catch((err) => {
+        alert(err.message);
+      });
+  };
+
   return (
     <>
       <div className="header">
@@ -76,6 +111,12 @@ const UpdateProfile = () => {
           </div>
           <input type="text" ref={profileRef} />
         </div>
+        {nameRef && profileRef && (
+          <div className="col" style={{color: "gray"}}>
+            Your profile is updated, You can edit profile again....
+          </div>
+        )}
+
         <div className="col">
           <button className="update" onClick={SubmitHandler}>
             Update

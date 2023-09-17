@@ -4,15 +4,13 @@ import './expense.css'
 
 const Expense = () => {
 
-    const handleCompleteProfile = () =>{
-        window.location.href = '/updateprofile';
-    }
+  console.log('Expense')
 
   return (
     <>
     <div className="header">
     <div className="heading">Welcome to expense Tracker App!!!</div>
-    <div className="incomplete">Your Profile is incomplete .<Link onClick={handleCompleteProfile}>Complete now</Link></div>
+    <div className="incomplete">Your Profile is incomplete .<Link to="/updateprofile">Complete now</Link></div>
     </div>
     <hr/>
     </>
