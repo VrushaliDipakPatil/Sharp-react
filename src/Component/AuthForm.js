@@ -6,7 +6,7 @@ import { useNavigate } from "../../node_modules/react-router-dom/dist/index";
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isLoding, setIsLoding] = useState(false);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -22,7 +22,6 @@ const AuthForm = () => {
       [name]: value,
     });
   };
-
 
   const SubmitHandler = (event) => {
     event.preventDefault();
@@ -65,7 +64,7 @@ const AuthForm = () => {
         })
         .then((data) => {
           authCtx.login(data.idToken);
-          navigate('/home')
+          navigate("/home");
         })
         .catch((err) => {
           alert(err.message);
@@ -75,6 +74,36 @@ const AuthForm = () => {
 
   const switchAuthModeHandler = () => {
     setIsLogin((prevState) => !prevState);
+  };
+
+  const handleForgotPassword = async () => {
+try{
+  const response = await fetch(
+    "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyB7XEOc6O8Svn_udxhDjDsiXVK2J2lv66c",
+    {
+      method: "POST",
+      body: JSON.stringify({
+        requestType : "PASSWORD_RESET",
+        email: user.email,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    alert(`Password Reset Failed: ${errorData.error.message}`)
+    throw new Error(`Password Reset Failed: ${errorData.error.message}`);
+   
+  }
+  
+  const responseData = await response.json();
+  alert("please check your mail to reset your password...")
+}catch(err){
+  console.log(err)
+}
   };
 
   return (
@@ -127,7 +156,8 @@ const AuthForm = () => {
           <button
             type="button"
             className={classes.toggle}
-            style={{color:"blue"}}
+            style={{ color: "blue" }}
+            onClick={handleForgotPassword}
           >
             {isLogin && "Forgot Password"}
           </button>
