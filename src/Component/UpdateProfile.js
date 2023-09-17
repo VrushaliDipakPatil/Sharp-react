@@ -1,10 +1,11 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./updateprofile.css";
 import GitHubIcon from "@material-ui/icons/GitHub";
 import LinkIcon from "@material-ui/icons/Link";
 import { Link } from "../../node_modules/react-router-dom/dist/index";
 
 const UpdateProfile = () => {
+    const [isProfileAvailable, setIsProfileAvailable] = useState(false);
   const nameRef = useRef();
   const profileRef = useRef();
 
@@ -71,10 +72,11 @@ const UpdateProfile = () => {
         return res.json();
       })
       .then((data) => {
-        if (data?.users && data.users.length > 0) {
+        if (data?.users[0].displayName && data.users.length > 0) {
           const user = data.users[0];
           nameRef.current.value = user.displayName;
           profileRef.current.value = user.photoUrl;
+          setIsProfileAvailable(true);
         }
       })
       .catch((err) => {
@@ -104,18 +106,18 @@ const UpdateProfile = () => {
             {" "}
             <GitHubIcon /> Full Name :
           </div>
-          <input type="text" ref={nameRef} />
+          <input type="text" ref={nameRef} value={isProfileAvailable ? nameRef.current.value : ""}/>
           <div>
             {" "}
             <LinkIcon /> Profile Phote URL :
           </div>
-          <input type="text" ref={profileRef} />
+          <input type="text" ref={profileRef} value={isProfileAvailable ? profileRef.current.value : ""}/>
         </div>
-        {nameRef && profileRef && (
-          <div className="col" style={{color: "gray"}}>
-            Your profile is updated, You can edit profile again....
+        {isProfileAvailable ? (
+          <div className="col" style={{ color: "gray" }}>
+            Your profile is updated, You can edit the profile again...
           </div>
-        )}
+        ) : null}
 
         <div className="col">
           <button className="update" onClick={SubmitHandler}>
