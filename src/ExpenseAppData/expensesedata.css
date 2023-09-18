@@ -1,47 +1,73 @@
 .expense-item {
-    margin-top: 20px;
-    align-items: center;
-  }
-  
-  .expense-heading {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-    border-bottom: 1px solid #ccc;
-    padding-bottom: 10px;
-    margin-bottom: 10px;
-    width: 50vw;
-  }
-  .expense-heading div{
-    width: 15vw; 
-    text-align: center;
-  }
-  
-  .expense-info {
-    display: flex;
-    justify-content: space-between;
-    border-bottom: 1px solid #ccc;
-    width: 60vw;
-    text-align: center;
-  }
+  margin-top: 20px;
+  align-items: center;
+}
 
-  .expense-info input{
-    text-align: center;
-  }
+.expense-heading {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+  width: 50vw;
+}
+.expense-heading div {
+  width: 15vw;
+  text-align: center;
+}
 
-  .expense-info button{
-    background-color: rgb(196, 129, 47);
-    border-color: bisque;
-    border-radius: 10px;
-    color: white;
-  }
-  
-  .expense-info div {
-    width: 15vw; 
-    text-align: center;
-  }
-  
-  .expense-info div:first-child {
-    text-align: center; 
-  }
-  
+.expense-info {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ccc;
+  width: 60vw;
+  text-align: center;
+}
+
+.expense-info input {
+  text-align: center;
+}
+
+.expense-info button {
+  background-color: rgb(196, 129, 47);
+  border-color: bisque;
+  border-radius: 10px;
+  color: white;
+}
+
+.expense-info div {
+  width: 15vw;
+  text-align: center;
+}
+
+.expense-info div:first-child {
+  text-align: center;
+}
+
+.premium-button {
+  background-color: rgb(124, 123, 36);
+  padding: 10px;
+  color: white;
+  font-weight: bold;
+  border-radius: 5px;
+  margin-right: 5px;
+}
+
+.premium{
+  color: rgb(124, 123, 36);
+  margin: 10px;
+}
+
+
+/* Dark Theme */
+.dark-theme {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.dark-theme button {
+  background-color: #333333;
+  color: white;
+}
+

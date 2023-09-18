@@ -1,11 +1,25 @@
-import React, { useState } from "react";
+import React, {  useReducer, useState } from "react";
 import "./expensesedata.css";
 import { useSelector } from "../../node_modules/react-redux/es/index";
 
+
+const themeReducer = (state, action) => {
+  switch (action.type) {
+    case 'TOGGLE_THEME':
+      return { isDarkTheme: !state.isDarkTheme };
+    case 'ACTIVATE_PREMIUM':
+      return { isDarkTheme: true };
+    default:
+      return state;
+  }
+};
+
 const ExpensesData = (props) => {
-  
-  const expensedata = useSelector((state)=> state.expenses?.expensedata)
+
+  const expensedata = useSelector((state) => state.expenses?.expensedata);
+  const ispremium = useSelector((state) => state.expenses?.isactivatePremium)
   const [editdata, setEditdata] = useState("");
+
 
   const deleteExpenseHandler = async (expenseId) => {
     try {
@@ -54,21 +68,52 @@ const ExpensesData = (props) => {
           }),
         }
       );
-  
+
       if (!response.ok) {
         throw new Error("Failed to update expense.");
       }
-  
+
       props.fetchExpenseHandler();
       setEditdata(null);
     } catch (error) {
       console.error("Error updating expense:", error);
     }
   };
-  
 
+  const [state, themedispatch] = useReducer(themeReducer, { isDarkTheme: false });
+
+  const activatePremium = () => {
+    themedispatch({ type: 'ACTIVATE_PREMIUM' });
+  };
+  
+  const toggleTheme = () => {
+    themedispatch({ type: 'TOGGLE_THEME' });
+  };
+
+  const handleDownloadFile = () => {
+    // Convert your expensedata to CSV format
+    const csvContent = "data:text/csv;charset=utf-8,"
+      + expensedata.map((expense) => Object.values(expense).join(",")).join("\n");
+
+    // Create a blob from the CSV content
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+
+    // Create a link element
+    const link = document.createElement('a');
+    link.href = window.URL.createObjectURL(blob);
+    link.download = 'expenses.csv'; // Set the desired file name
+
+    // Append the link to the body
+    document.body.appendChild(link);
+
+    // Trigger a click event to initiate download
+    link.click();
+
+    // Remove the link from the body
+    document.body.removeChild(link);
+  };
   return (
-    <>
+    <div className={state.isDarkTheme ? 'dark-theme' : 'light-theme'}>
       <div className="expense-item">
         <div className="expense-heading">
           <div>Expense</div>
@@ -135,7 +180,14 @@ const ExpensesData = (props) => {
           </>
         ))}
       </div>
-    </>
+
+     {ispremium && ( <div className="premium"> 
+        <p>Your expenses are more than ₹10000</p>
+        <button className="premium-button" onClick={activatePremium}>Activate Premium</button>
+        <button className="premium-button" onClick={toggleTheme}>Toggle Theme</button>
+        <button className="premium-button" onClick={handleDownloadFile}>Download file</button>
+      </div>)}
+    </div>
   );
 };
 

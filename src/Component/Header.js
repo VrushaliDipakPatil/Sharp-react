@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./header.css";
 import { useNavigate } from "../../node_modules/react-router-dom/dist/index";
 import { useDispatch, useSelector } from "../../node_modules/react-redux/es/index";

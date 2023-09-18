@@ -1,23 +1,24 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./expenseinput.css";
 import ExpensesData from "./ExpensesData";
-import { useDispatch, useSelector } from "../../node_modules/react-redux/es/exports";
+import {
+  useDispatch,
+  useSelector,
+} from "../../node_modules/react-redux/es/exports";
 import { expenseActions } from "../store/expenseSlice";
 
 const ExpenseInput = () => {
+  const dispatch = useDispatch();
 
-  const dispatch = useDispatch()
-
-  const expensedata = useSelector((state)=> state.expenses?.expensedata)
+  const expensedata = useSelector((state) => state.expenses?.expensedata);
 
   const [category, setCategory] = useState("");
   const [expense, setExpense] = useState("");
   const [amount, setAmount] = useState(0);
 
-
-  useEffect(()=>{
-    fetchExpenseHandler()
-  },[])
+  useEffect(() => {
+    fetchExpenseHandler();
+  }, []);
 
   const handleCategoryChange = (event) => {
     setCategory(event.target.value);
@@ -56,7 +57,7 @@ const ExpenseInput = () => {
     }
 
     setTimeout(() => {
-        fetchExpenseHandler()
+      fetchExpenseHandler();
     }, 500);
   }
 
@@ -78,8 +79,17 @@ const ExpenseInput = () => {
           category: data[key].category,
         });
       }
-      dispatch(expenseActions.expenseData())
-dispatch(expenseActions.expenseData(loadedExpenses))
+      dispatch(expenseActions.expenseData());
+      dispatch(expenseActions.expenseData(loadedExpenses));
+      let totalExpense = 0;
+      loadedExpenses.map((data) => {
+        totalExpense = Number(totalExpense) + Number(data.amount);
+      });
+      if (totalExpense > 10000) {
+        dispatch(expenseActions.ActivatePremium(true));
+      } else {
+        dispatch(expenseActions.ActivatePremium(false));
+      }
     } catch (error) {}
   }, []);
 
@@ -109,8 +119,11 @@ dispatch(expenseActions.expenseData(loadedExpenses))
           <button className="add-button">Add Expense</button>
         </div>
       </form>
-      {expensedata?.length > 0 ? (<ExpensesData  fetchExpenseHandler={fetchExpenseHandler}/>) : ''}
-      
+      {expensedata?.length > 0 ? (
+        <ExpensesData fetchExpenseHandler={fetchExpenseHandler} />
+      ) : (
+        ""
+      )}
     </>
   );
 };

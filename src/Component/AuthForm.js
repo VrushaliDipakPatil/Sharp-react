@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import {  useState } from "react";
 import classes from "./AuthForm.module.css";
 import { useNavigate } from "../../node_modules/react-router-dom/dist/index";
 import { authActions } from "../store/authSlice";
@@ -102,7 +102,6 @@ try{
    
   }
   
-  const responseData = await response.json();
   alert("please check your mail to reset your password...")
 }catch(err){
   console.log(err)

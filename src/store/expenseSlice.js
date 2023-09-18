@@ -2,6 +2,7 @@ import { createSlice } from "../../node_modules/@reduxjs/toolkit/dist/index";
 
 const initialExpenseState = {
   expensedata: [],
+  isactivatePremium: false,
 };
 
 const expenseSlice = createSlice({
@@ -9,8 +10,12 @@ const expenseSlice = createSlice({
   initialState: initialExpenseState,
   reducers: {
     expenseData(state, action) {
-      state.expensedata = action.payload;
+      state.expensedata = action.payload;  
     },
+
+    ActivatePremium(state, action){
+      state.isactivatePremium = action.payload;
+    }
   },
 });
 
