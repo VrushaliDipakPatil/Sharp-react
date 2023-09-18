@@ -1,0 +1,47 @@
+.incomplete {
+    background-color: rgb(179, 175, 175);
+    width: 30rem;
+  border-radius: 10px;
+  }
+  
+  .heading{
+  font-weight: 300;
+  font-size: large;
+  text-align: center;
+  }
+  
+  .header{
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      font-size:medium;
+  }
+
+  .input-form{
+    font-weight: bold;
+    padding-left: 40rem;
+    padding-right: 40px;
+  }
+
+  .contact-detail{
+    font-size:x-large;
+  }
+
+  .col{
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+  }
+.cancel{
+    border-color: red;
+    color: red;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.update{
+    background-color: rgb(211, 85, 85);
+    border-color: red;
+    color: white;
+    border-radius: 10px;
+}
