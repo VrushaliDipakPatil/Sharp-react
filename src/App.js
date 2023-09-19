@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { uiActions } from "./store/ui-slice";
 import Notification from "./components/UI/Notification";
+import { fetchCartData, sendCartdata } from "./store/cart-actions";
 
 let isinitial = true;
 
@@ -16,49 +17,19 @@ function App() {
   const notification = useSelector((state) => state.ui.notification);
 
   useEffect(() => {
-    const sendCartData = async () => {
-      dispatch(
-        uiActions.showNotification({
-          status: "pending",
-          title: "sending..",
-          message: "sending data to cart!",
-        })
-      );
-      const respone = await fetch(
-        "https://movies-2a006-default-rtdb.firebaseio.com/cart.json",
-        {
-          method: "PUT",
-          body: JSON.stringify(cart),
-        }
-      );
+    dispatch(fetchCartData());
+  }, [dispatch]);
 
-      if (!respone.ok) {
-        throw new Error("sending cart data failed....");
-      }
-
-      dispatch(
-        uiActions.showNotification({
-          status: "success",
-          title: "success..",
-          message: "sent data to cart successfully!",
-        })
-      );
-    };
-
+  useEffect(() => {
     if (isinitial) {
-      isinitial= false;
+      isinitial = false;
       return;
     }
 
-    sendCartData().catch((error) => {
-      dispatch(
-        uiActions.showNotification({
-          status: "error",
-          title: "error..",
-          message: "failed sending data to cart!",
-        })
-      );
-    });
+    if(cart.changed){
+      dispatch(sendCartdata(cart));
+    }
+
   }, [cart, dispatch]);
 
   return (
