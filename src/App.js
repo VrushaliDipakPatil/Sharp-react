@@ -1,51 +1,26 @@
-import { useSelector } from "react-redux";
-import Cart from "./components/Cart/Cart";
-import Layout from "./components/Layout/Layout";
-import Products from "./components/Shop/Products";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { uiActions } from "./store/ui-slice";
-import Notification from "./components/UI/Notification";
-import { fetchCartData, sendCartdata } from "./store/cart-actions";
-
-let isinitial = true;
+import { Route, Routes } from "react-router-dom";
+import "./App.css";
+import AuthForm from "./Component/AuthForm";
+import Expense from "./Component/Expense";
+import UpdateProfile from "./Component/UpdateProfile";
+import Header from "./Component/Header";
+import ExpenseInput from "./ExpenseAppData/ExpenseInput";
+import { useSelector } from "../node_modules/react-redux/es/exports";
 
 function App() {
-  const dispatch = useDispatch();
-  const showcart = useSelector((state) => state.ui.cartIsVisible);
-  const cart = useSelector((state) => state.cart);
-  const notification = useSelector((state) => state.ui.notification);
-
-  useEffect(() => {
-    dispatch(fetchCartData());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (isinitial) {
-      isinitial = false;
-      return;
-    }
-
-    if(cart.changed){
-      dispatch(sendCartdata(cart));
-    }
-
-  }, [cart, dispatch]);
-
+  const isLoggedIn = useSelector((state) => state.auth.isAuthenticated)
   return (
-    <>
-      {notification && (
-        <Notification
-          status={notification.status}
-          title={notification.title}
-          message={notification.message}
-        />
-      )}
-      <Layout>
-        {showcart && <Cart />}
-        <Products />
-      </Layout>
-    </>
+    <div className="App">
+      <Header />
+      <Routes>
+        <Route path="/" exact element={<AuthForm />} />
+        <Route path="/home" element={<Expense />} />
+        <Route path="/updateprofile" element={<UpdateProfile />} />
+        {isLoggedIn && (
+          <Route path="/expenseinput" element={<ExpenseInput />} />
+        )}
+      </Routes>
+    </div>
   );
 }
 
