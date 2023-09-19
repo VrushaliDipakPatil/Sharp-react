@@ -1,6 +1,6 @@
 import React, {  useReducer, useState } from "react";
 import "./expensesedata.css";
-import { useSelector } from "../../node_modules/react-redux/es/index";
+import { useSelector } from "react-redux";
 
 
 const themeReducer = (state, action) => {
@@ -19,12 +19,13 @@ const ExpensesData = (props) => {
   const expensedata = useSelector((state) => state.expenses?.expensedata);
   const ispremium = useSelector((state) => state.expenses?.isactivatePremium)
   const [editdata, setEditdata] = useState("");
+  const email = useSelector((state)=> state.auth?.user_email)
 
 
   const deleteExpenseHandler = async (expenseId) => {
     try {
       const response = await fetch(
-        `https://movies-2a006-default-rtdb.firebaseio.com/expenses/${expenseId}.json`,
+        `https://movies-2a006-default-rtdb.firebaseio.com/${email}/${expenseId}.json`,
         {
           method: "DELETE",
         }
@@ -55,7 +56,7 @@ const ExpensesData = (props) => {
   const updateExpenseHandler = async () => {
     try {
       const response = await fetch(
-        `https://movies-2a006-default-rtdb.firebaseio.com/expenses/${editdata.id}.json`,
+        `https://movies-2a006-default-rtdb.firebaseio.com/${email}/${editdata.id}.json`,
         {
           method: "PUT", // Use PATCH for partial updates
           headers: {

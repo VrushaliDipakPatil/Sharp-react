@@ -66,6 +66,7 @@ const AuthForm = () => {
         })
         .then((data) => {
           dispatch(authActions.loginData(data.idToken));
+          dispatch(authActions.UserEmail(data.localId))
           dispatch(authActions.login());
           navigate("/home");
         })

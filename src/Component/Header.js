@@ -3,6 +3,7 @@ import "./header.css";
 import { useNavigate } from "../../node_modules/react-router-dom/dist/index";
 import { useDispatch, useSelector } from "../../node_modules/react-redux/es/index";
 import { authActions } from "../store/authSlice";
+import { expenseActions } from "../store/expenseSlice";
 
 const Header = () => {
   const dispatch= useDispatch();
@@ -12,6 +13,8 @@ const Header = () => {
   const handleLogout = () => {
     dispatch(authActions.logout());
     dispatch(authActions.loginData());
+    dispatch(authActions.UserEmail());
+    dispatch(expenseActions.expenseData())
     navigate("/");
   };
 

@@ -11,6 +11,7 @@ const ExpenseInput = () => {
   const dispatch = useDispatch();
 
   const expensedata = useSelector((state) => state.expenses?.expensedata);
+  const email = useSelector((state)=> state.auth?.user_email)
 
   const [category, setCategory] = useState("");
   const [expense, setExpense] = useState("");
@@ -42,7 +43,7 @@ const ExpenseInput = () => {
   async function addExpenseHandler(expensedata) {
     try {
       const respone = await fetch(
-        "https://movies-2a006-default-rtdb.firebaseio.com/expenses.json",
+        `https://movies-2a006-default-rtdb.firebaseio.com/${email}.json`,
         {
           method: "POST",
           body: JSON.stringify(expensedata),
@@ -52,6 +53,9 @@ const ExpenseInput = () => {
         }
       );
       const data = respone.json();
+      setCategory("")
+      setExpense("")
+      setAmount("")
     } catch (err) {
       console.log(err);
     }
@@ -64,7 +68,7 @@ const ExpenseInput = () => {
   const fetchExpenseHandler = useCallback(async () => {
     try {
       const response = await fetch(
-        "https://movies-2a006-default-rtdb.firebaseio.com/expenses.json"
+        `https://movies-2a006-default-rtdb.firebaseio.com/${email}.json`
       );
       if (!response.ok) {
         throw new Error("Something went wrong.....Retrying!");
