@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import MailHome from "./MailHome";
+import MailHome from "./components/MailHome";
 import AuthForm from "./components/AutForm";
 
 function App() {
