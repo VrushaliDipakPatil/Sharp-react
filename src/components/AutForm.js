@@ -5,7 +5,7 @@ import { authActions } from "../store/authSlice";
 
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
-  //   const navigate = useNavigate();
+    const navigate = useNavigate();
   const dispatch = useDispatch();
   const [user, setUser] = useState({
     email: "",
@@ -63,7 +63,7 @@ const AuthForm = () => {
           dispatch(authActions.UserEmail(data.localId));
           dispatch(authActions.login());
           console.log("user login successfully");
-          //   navigate("/home");
+            navigate("/mailhome");
         })
         .catch((err) => {
           alert(err.message);
