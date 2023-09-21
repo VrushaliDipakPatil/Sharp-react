@@ -5,7 +5,7 @@ import Expense from "./Component/Expense";
 import UpdateProfile from "./Component/UpdateProfile";
 import Header from "./Component/Header";
 import ExpenseInput from "./ExpenseAppData/ExpenseInput";
-import { useSelector } from "../node_modules/react-redux/es/exports";
+import { useSelector } from "react-redux";
 
 function App() {
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated)

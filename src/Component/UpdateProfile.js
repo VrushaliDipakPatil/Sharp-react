@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import "./updateprofile.css";
 // import GitHubIcon from "@material-ui/icons/GitHub";
 // import LinkIcon from "@material-ui/icons/Link";
-import { Link } from "../../node_modules/react-router-dom/dist/index";
+import { Link } from "react-router-dom";
 
 const UpdateProfile = () => {
     const [isProfileAvailable, setIsProfileAvailable] = useState(false);

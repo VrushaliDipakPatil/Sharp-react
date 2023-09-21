@@ -1,7 +1,7 @@
 import React from "react";
 import "./header.css";
-import { useNavigate } from "../../node_modules/react-router-dom/dist/index";
-import { useDispatch, useSelector } from "../../node_modules/react-redux/es/index";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/authSlice";
 import { expenseActions } from "../store/expenseSlice";
 

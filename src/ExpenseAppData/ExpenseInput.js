@@ -4,7 +4,7 @@ import ExpensesData from "./ExpensesData";
 import {
   useDispatch,
   useSelector,
-} from "../../node_modules/react-redux/es/exports";
+} from "react-redux";
 import { expenseActions } from "../store/expenseSlice";
 
 const ExpenseInput = () => {

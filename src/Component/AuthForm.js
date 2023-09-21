@@ -1,8 +1,8 @@
 import {  useState } from "react";
 import classes from "./AuthForm.module.css";
-import { useNavigate } from "../../node_modules/react-router-dom/dist/index";
+import { useNavigate } from "react-router-dom";
 import { authActions } from "../store/authSlice";
-import { useDispatch } from "../../node_modules/react-redux/es/exports";
+import { useDispatch } from "react-redux";
 
 const AuthForm = () => {
 
