@@ -2,15 +2,20 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { mailActions } from "../store/mailslice";
 import "./inbox.css"; // Import the CSS for styling
+import { useNavigate } from "react-router-dom";
 
 const Inbox = () => {
   const dispatch = useDispatch();
-  const [inbox, setIsInbox] = useState(null);
-
+const navigate = useNavigate();
   const email = useSelector((state) => state.auth.user_email);
+  const inbox = useSelector((state) => state.mail.inboxmail);
 
   const removeSpecialCharacters = (email) => {
     return email.replace(/[@.]/g, "");
+  };
+
+  const renderHTML = (htmlString) => {
+    return { __html: htmlString };
   };
 
   const fetchInboxMail = useCallback(async () => {
@@ -31,9 +36,9 @@ const Inbox = () => {
           Subject: data[key].Subject,
           Message: data[key].Message,
           To: data[key].To,
+          isRead: data[key].isRead,
         });
       }
-      setIsInbox(loadedInbox);
       dispatch(mailActions.InboxData(loadedInbox));
     } catch (error) {}
   }, [dispatch, email]);
@@ -42,24 +47,37 @@ const Inbox = () => {
     fetchInboxMail();
   }, [fetchInboxMail]);
 
+  const handleSelectMail = (data) => {
+    dispatch(mailActions.SelectedMail(data));
+navigate('/maildetail')
+  };
+
   return (
     <>
       <div className="container mt-5">
         <h1 className="mb-4">Inbox</h1>
         {inbox !== null ? (
           inbox.map((data) => (
-            <div className="email-item" key={data.id}>
+            <div
+              className="email-item"
+              key={data.id}
+              onClick={() => handleSelectMail(data)}
+            >
               <div className="email-details">
-                <p className="email-from">{data.From}</p>
-                <h5 className="email-subject">{data.Subject}</h5>
                 <div
-                  className="email-message"
+                  className={
+                    data.isRead == "false" ? "circle-unread" : "circle-read"
+                  }
+                ></div>
+                <p className="email">{data.From}</p>
+                <h5 className="email">{data.Subject}</h5>
+                <div
+                  className="email"
                   dangerouslySetInnerHTML={renderHTML(data.Message)}
                 ></div>
               </div>
-              <hr/>
+              <hr />
             </div>
-            
           ))
         ) : (
           <p>No mails found</p>
@@ -67,10 +85,6 @@ const Inbox = () => {
       </div>
     </>
   );
-};
-
-const renderHTML = (htmlString) => {
-  return { __html: htmlString };
 };
 
 export default Inbox;

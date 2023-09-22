@@ -30,7 +30,7 @@ const MailCompose = () => {
             From : senderemail,
             Subject: subject,
             Message : message,
-            To: to
+            To: to,
           })
         })
         if(!senderresponse.ok){
@@ -47,7 +47,8 @@ const MailCompose = () => {
             From : senderemail,
             Subject: subject,
             Message : message,
-            To: to
+            To: to,
+            isRead: false
           })
         })
         if(!receiverresponse.ok){
@@ -55,6 +56,9 @@ const MailCompose = () => {
         }
   
         alert('Email sent successfully.');
+        setMessage('')
+        setSubject('')
+        setTo('')
       } catch (error) {
         console.error('Failed to send email:', error);
         alert('Failed to send email.');

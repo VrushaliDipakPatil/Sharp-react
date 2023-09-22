@@ -1,23 +1,30 @@
 
   .email-details {
     display: flex;
-   justify-content: space-between;
+    align-items: center;
+  }
+
+  .email{
+    margin-right: 20px;
   }
   
-  .email-subject {
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
+.circle-read{
+    width: 10px;
+    height: 15px;
+    border-radius: 50%;
+    border-color: black;
+    background-color: gray;
+    margin-right: 10px;
+}
+
+.circle-unread{
+    width: 10px;
+    height: 15px;
+    border-radius: 50%;
+    border-color: black;
+    background-color: blue;
+    margin-right: 10px;
+}
   
-  .email-from {
-    font-weight: bold;
-  }
   
-  .email-message {
-    word-break: break-word; /* Ensure long words break into a new line */
-  }
-  
-  .btn {
-    margin-top: 10px;
-  }
   
