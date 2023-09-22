@@ -1,12 +1,70 @@
-import React from "react";
+import React, { useState } from "react";
 import MailCompose from "./MailCompose";
+import "./mailhome.css";
+import Inbox from "./Inbox";
+import Sent from "./Sent";
+import AllMails from "./AllMails";
 
 const MailHome = () => {
+  const [isCompose, setIsCompose] = useState(false);
+  const [isInbox, setIsInbox] = useState(false);
+  const [isSent, setIsSent] = useState(false);
+  const [isAll, setIsAll] = useState(false);
+  const handleCompose = () => {
+    setIsCompose(true);
+    setIsInbox(false);
+    setIsSent(false);
+    setIsAll(false);
+  };
+  const handleInbox = () => {
+    setIsInbox(true);
+    setIsCompose(false);
+    setIsSent(false);
+    setIsAll(false);
+  };
+  const handleSent = () => {
+    setIsSent(true);
+    setIsCompose(false);
+    setIsInbox(false);
+    setIsAll(false);
+  };
+  const handleAll = () => {
+    setIsAll(true);
+    setIsSent(false);
+    setIsCompose(false);
+    setIsInbox(false);
+  };
   return (
-    <>
-      <h2>Welcome to your mail box!!!</h2>
-      <MailCompose/>
-    </>
+    <div className="mail-home">
+      <div className="label-col">
+        <div className="compose-mail" onClick={handleCompose}>
+          Compose{" "}
+        </div>
+        <div className="compose-mail" onClick={handleInbox}>
+          {" "}
+          Inbox
+        </div>
+        <div className="compose-mail" onClick={handleSent}>
+          {" "}
+          sent
+        </div>
+        <div className="compose-mail" onClick={handleAll}>
+          {" "}
+          All
+        </div>
+      </div>
+      <div className="show-part">
+        {isCompose ? (
+          <MailCompose />
+        ) : isInbox ? (
+          <Inbox />
+        ) : isSent ? (
+          <Sent />
+        ) : isAll ? (
+          <AllMails/>
+        ) : null}
+      </div>
+    </div>
   );
 };
 

@@ -60,7 +60,7 @@ const AuthForm = () => {
         })
         .then((data) => {
           dispatch(authActions.loginData(data.idToken));
-          dispatch(authActions.UserEmail(data.localId));
+          dispatch(authActions.UserEmail(data.email));
           dispatch(authActions.login());
           console.log("user login successfully");
             navigate("/mailhome");

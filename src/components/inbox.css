@@ -1,0 +1,23 @@
+
+  .email-details {
+    display: flex;
+   justify-content: space-between;
+  }
+  
+  .email-subject {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+  
+  .email-from {
+    font-weight: bold;
+  }
+  
+  .email-message {
+    word-break: break-word; /* Ensure long words break into a new line */
+  }
+  
+  .btn {
+    margin-top: 10px;
+  }
+  

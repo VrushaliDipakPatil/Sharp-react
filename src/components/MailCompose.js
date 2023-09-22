@@ -1,33 +1,65 @@
 import React, { useState } from 'react'
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import styles
+import { useSelector } from 'react-redux';
 
 const MailCompose = () => {
     const [to, setTo] = useState('');
     const [subject, setSubject] = useState('');
     const [message, setMessage] = useState('');
 
-    const handleSendEmail = () => {
-        const userId = 'getUserIdHere'; // Replace with the actual userId (you can retrieve this after the user logs in)
-    
-        const emailData = {
-          to,
-          subject,
-          message,
-        };
-    
-        // Initialize Firebase and get a reference to the database
-        // const database = firebase.database();
-    
-        // Push the email to the user's emails node
-        // database.ref(`emails/${userId}`).push(emailData, (error) => {
-        //   if (error) {
-        //     alert('Failed to send email.');
-        //   } else {
-        //     alert('Email sent successfully.');
-        //   }
-        // });
-      };
+    const senderemail = useSelector((state) => state.auth.user_email)
+
+    const removeSpecialCharacters = (email) => {
+      return email.replace(/[@.]/g, '');
+    };
+
+  
+    const handleSendEmail = async () => {
+      try {
+        const receiverUserId = removeSpecialCharacters(to); // Replace with actual receiver's user ID
+        const senderUserId = removeSpecialCharacters(senderemail); // Replace with actual sender's user ID
+  
+        // Send the email to the receiver
+        const senderresponse = await fetch(`https://react-mail-c09ee-default-rtdb.firebaseio.com/email/sent/${senderUserId}.json`,{
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            From : senderemail,
+            Subject: subject,
+            Message : message,
+            To: to
+          })
+        })
+        if(!senderresponse.ok){
+          throw new Error("Mail not sent")
+        }
+  
+        // Store the email in the sender's "sent" folder
+        const receiverresponse = await fetch(`https://react-mail-c09ee-default-rtdb.firebaseio.com/email/inbox/${receiverUserId}.json`,{
+          method: 'POST',
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            From : senderemail,
+            Subject: subject,
+            Message : message,
+            To: to
+          })
+        })
+        if(!receiverresponse.ok){
+          throw new Error("Mail not sent")
+        }
+  
+        alert('Email sent successfully.');
+      } catch (error) {
+        console.error('Failed to send email:', error);
+        alert('Failed to send email.');
+      }
+    };
     
   return (
     <div className="container" style={{width: '50%' }}>
