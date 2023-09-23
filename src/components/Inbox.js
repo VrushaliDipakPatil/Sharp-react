@@ -83,9 +83,17 @@ setTimeout(() => {
     }
   };
 
-  useEffect(()=>{
-    fetchInboxMail()
-  },[])
+  useEffect(() => {
+    // Initial fetch
+    fetchInboxMail();
+
+    // Fetch every 2 seconds
+    const intervalId = setInterval(() => {
+      fetchInboxMail();
+    }, 2000);
+
+    return () => clearInterval(intervalId); // Clear interval on component unmount
+  }, [fetchInboxMail]);
 
   return (
     <>
