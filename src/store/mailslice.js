@@ -9,7 +9,7 @@ const initialMailState = {
   inboxmail: [],
   sentmail: [],
   selectedmail: [],
-
+  unreadcount: 0
 };
 
 const mailSlice = createSlice({
@@ -53,6 +53,10 @@ const mailSlice = createSlice({
 
       state.selectedmail = selectedMailIds;
     },
+
+    UnreadCount(state, action){
+      state.unreadcount = action.payload
+    }
 
   },
 });

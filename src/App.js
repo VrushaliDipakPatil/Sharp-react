@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" exact element ={<AuthForm />}/>
-        <Route path="mailhome" element={<MailHome/>} />
+        <Route path="/mailhome" element={<MailHome/>} />
         <Route path = "/maildetail" element = {<MailDetail/>}/>
       </Routes>
       

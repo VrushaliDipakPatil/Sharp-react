@@ -6,40 +6,49 @@ import Sent from "./Sent";
 import AllMails from "./AllMails";
 import { useDispatch, useSelector } from "react-redux";
 import "./maildetail.css";
+import { mailActions } from "../store/mailslice";
+import { useNavigate } from "react-router-dom";
 
 const MailDetail = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate()
   const [isCompose, setIsCompose] = useState(false);
   const [isInbox, setIsInbox] = useState(false);
   const [isSent, setIsSent] = useState(false);
   const [isAll, setIsAll] = useState(false);
 
   const selectedmail = useSelector((state) => state.mail.selectedmail);
-  console.log(selectedmail);
+  const count = useSelector((state)=> state.mail.unreadcount)
+
+  dispatch(mailActions.InboxData(''))
 
   const handleCompose = () => {
     setIsCompose(true);
     setIsInbox(false);
     setIsSent(false);
     setIsAll(false);
+    navigate('/mailhome')
   };
   const handleInbox = () => {
     setIsInbox(true);
     setIsCompose(false);
     setIsSent(false);
     setIsAll(false);
+    navigate('/mailhome')
   };
   const handleSent = () => {
     setIsSent(true);
     setIsCompose(false);
     setIsInbox(false);
     setIsAll(false);
+    navigate('/mailhome')
   };
   const handleAll = () => {
     setIsAll(true);
     setIsSent(false);
     setIsCompose(false);
     setIsInbox(false);
+    navigate('/mailhome')
   };
 
   const renderHTML = (htmlString) => {
@@ -55,7 +64,7 @@ const MailDetail = () => {
           </div>
           <div className="compose-mail" onClick={handleInbox}>
             {" "}
-            Inbox
+            Inbox   unread {count}
           </div>
           <div className="compose-mail" onClick={handleSent}>
             {" "}

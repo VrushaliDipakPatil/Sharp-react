@@ -8,14 +8,23 @@ const Inbox = () => {
   const dispatch = useDispatch();
 const navigate = useNavigate();
   const email = useSelector((state) => state.auth.user_email);
-  const inbox = useSelector((state) => state.mail.inboxmail);
+  const [count, setCount] = useState(0);
+  const [inbox, setInbox] = useState(null)
 
-  const removeSpecialCharacters = (email) => {
-    return email.replace(/[@.]/g, "");
-  };
 
   const renderHTML = (htmlString) => {
     return { __html: htmlString };
+  };
+
+
+
+  const handleSelectMail = (data) => {
+    dispatch(mailActions.SelectedMail(data));
+navigate('/maildetail')
+  };
+
+  const removeSpecialCharacters = (email) => {
+    return email.replace(/[@.]/g, "");
   };
 
   const fetchInboxMail = useCallback(async () => {
@@ -29,6 +38,7 @@ const navigate = useNavigate();
       }
       const data = await response.json();
       const loadedInbox = [];
+      let unreadEmailCount = 0;
       for (const key in data) {
         loadedInbox.push({
           id: key,
@@ -38,25 +48,28 @@ const navigate = useNavigate();
           To: data[key].To,
           isRead: data[key].isRead,
         });
+        if( data[key].isRead == false){
+          unreadEmailCount++;
+        }
       }
       dispatch(mailActions.InboxData(loadedInbox));
+      setInbox(loadedInbox)
+      setCount(unreadEmailCount)
+      dispatch(mailActions.UnreadCount(unreadEmailCount))
+      
+
     } catch (error) {}
   }, [dispatch, email]);
 
-  useEffect(() => {
-    fetchInboxMail();
-  }, [fetchInboxMail]);
-
-  const handleSelectMail = (data) => {
-    dispatch(mailActions.SelectedMail(data));
-navigate('/maildetail')
-  };
+  useEffect(()=>{
+    fetchInboxMail()
+  },[])
 
   return (
     <>
       <div className="container mt-5">
         <h1 className="mb-4">Inbox</h1>
-        {inbox !== null ? (
+        {inbox !== null && inbox !== undefined ? (
           inbox.map((data) => (
             <div
               className="email-item"
@@ -66,7 +79,7 @@ navigate('/maildetail')
               <div className="email-details">
                 <div
                   className={
-                    data.isRead == "false" ? "circle-unread" : "circle-read"
+                    data.isRead == false ? "circle-unread" : "circle-read"
                   }
                 ></div>
                 <p className="email">{data.From}</p>
