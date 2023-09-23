@@ -1,11 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { mailActions } from '../store/mailslice';
+import { useNavigate } from 'react-router-dom';
+import './inbox.css'
 
 const Sent = () => {
 const dispatch = useDispatch()
     const [Sent, setIsSent] = useState(null)
-
+const navigate = useNavigate()
     const email = useSelector((state) => state.auth.user_email)
     const removeSpecialCharacters = (email) => {
         return email.replace(/[@.]/g, '');
@@ -45,9 +47,14 @@ const dispatch = useDispatch()
         return { __html: htmlString };
       };
 
+      const handleSelectMail = (data) => {
+        dispatch(mailActions.SelectedMail(data));
+    navigate('/maildetail')
+      };
+
   return (
     <>
-<div className="container mt-5">
+{/* <div className="container mt-5">
   <h1 className="mb-4">Sent</h1>
   {Sent !== null ? (
     Sent.map((data) => (
@@ -65,7 +72,34 @@ const dispatch = useDispatch()
   ) : (
     <p>No mails found</p>
   )}
-</div>
+</div> */}
+
+<div className="container mt-5">
+        <h1 className="mb-4">Sent</h1>
+        {Sent !== null && Sent !== undefined ? (
+          Sent.map((data) => (
+            <div
+              className="email-item"
+              key={data.id}
+              
+            >
+              <div className="email-details">
+                <div onClick={() => handleSelectMail(data)} style={{display:'flex'}}>
+                <p className="email">{data.To}</p>
+                <h5 className="email">{data.Subject}</h5>
+                <div
+                  className="email"
+                  dangerouslySetInnerHTML={renderHTML(data.Message)}
+                ></div>
+                </div>
+              </div>
+              <hr />
+            </div>
+          ))
+        ) : (
+          <p>No mails found</p>
+        )}
+      </div>
 
     </>
   )
