@@ -61,6 +61,28 @@ navigate('/maildetail')
     } catch (error) {}
   }, [dispatch, email]);
 
+  const deleteMailHandler = async (mailId) => {
+    const emailId = removeSpecialCharacters(email);
+    try {
+      const response = await fetch(
+        `https://react-mail-c09ee-default-rtdb.firebaseio.com/email/inbox/${emailId}/${mailId}.json`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Failed to delete movie.");
+      }
+setTimeout(() => {
+  fetchInboxMail();
+}, 500);
+      
+    } catch (error) {
+      console.error("Error deleting movie:", error);
+    }
+  };
+
   useEffect(()=>{
     fetchInboxMail()
   },[])
@@ -74,9 +96,10 @@ navigate('/maildetail')
             <div
               className="email-item"
               key={data.id}
-              onClick={() => handleSelectMail(data)}
+              
             >
               <div className="email-details">
+                <div onClick={() => handleSelectMail(data)} style={{display:'flex'}}>
                 <div
                   className={
                     data.isRead == false ? "circle-unread" : "circle-read"
@@ -88,6 +111,8 @@ navigate('/maildetail')
                   className="email"
                   dangerouslySetInnerHTML={renderHTML(data.Message)}
                 ></div>
+                </div>
+                <button className="email" onClick={()=>deleteMailHandler(data.id)}>Delete</button>
               </div>
               <hr />
             </div>
