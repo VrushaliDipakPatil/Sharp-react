@@ -3,13 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { mailActions } from "../store/mailslice";
 import "./inbox.css"; // Import the CSS for styling
 import { useNavigate } from "react-router-dom";
+import useFetchInboxMail from "../CustomHooks/useFetchInboxMail";
 
 const Inbox = () => {
   const dispatch = useDispatch();
 const navigate = useNavigate();
   const email = useSelector((state) => state.auth.user_email);
-  const [count, setCount] = useState(0);
-  const [inbox, setInbox] = useState(null)
+
 
 
   const renderHTML = (htmlString) => {
@@ -26,40 +26,8 @@ navigate('/maildetail')
   const removeSpecialCharacters = (email) => {
     return email.replace(/[@.]/g, "");
   };
-
-  const fetchInboxMail = useCallback(async () => {
-    const emailId = removeSpecialCharacters(email);
-    try {
-      const response = await fetch(
-        `https://react-mail-c09ee-default-rtdb.firebaseio.com/email/inbox/${emailId}.json`
-      );
-      if (!response.ok) {
-        throw new Error("Something went wrong.....Retrying!");
-      }
-      const data = await response.json();
-      const loadedInbox = [];
-      let unreadEmailCount = 0;
-      for (const key in data) {
-        loadedInbox.push({
-          id: key,
-          From: data[key].From,
-          Subject: data[key].Subject,
-          Message: data[key].Message,
-          To: data[key].To,
-          isRead: data[key].isRead,
-        });
-        if( data[key].isRead == false){
-          unreadEmailCount++;
-        }
-      }
-      dispatch(mailActions.InboxData(loadedInbox));
-      setInbox(loadedInbox)
-      setCount(unreadEmailCount)
-      dispatch(mailActions.UnreadCount(unreadEmailCount))
-      
-
-    } catch (error) {}
-  }, [dispatch, email]);
+  const emailId = removeSpecialCharacters(email);
+  const { inboxMail, error } = useFetchInboxMail(emailId);
 
   const deleteMailHandler = async (mailId) => {
     const emailId = removeSpecialCharacters(email);
@@ -74,33 +42,19 @@ navigate('/maildetail')
       if (!response.ok) {
         throw new Error("Failed to delete movie.");
       }
-setTimeout(() => {
-  fetchInboxMail();
-}, 500);
       
     } catch (error) {
       console.error("Error deleting movie:", error);
     }
   };
 
-  useEffect(() => {
-    // Initial fetch
-    fetchInboxMail();
-
-    // Fetch every 2 seconds
-    const intervalId = setInterval(() => {
-      fetchInboxMail();
-    }, 2000);
-
-    return () => clearInterval(intervalId); // Clear interval on component unmount
-  }, [fetchInboxMail]);
 
   return (
     <>
       <div className="container mt-5">
         <h1 className="mb-4">Inbox</h1>
-        {inbox !== null && inbox !== undefined ? (
-          inbox.map((data) => (
+        {inboxMail !== null && inboxMail !== undefined ? (
+          inboxMail.map((data) => (
             <div
               className="email-item"
               key={data.id}

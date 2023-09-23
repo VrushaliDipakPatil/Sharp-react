@@ -8,6 +8,7 @@ import MailDetail from "./MailDetail";
 import { useDispatch, useSelector } from "react-redux";
 import { mailActions } from "../store/mailslice";
 import { useNavigate } from "react-router-dom";
+import useFetchInboxMail from "../CustomHooks/useFetchInboxMail";
 
 
 const MailHome = () => {
@@ -17,8 +18,14 @@ const MailHome = () => {
   const [isInbox, setIsInbox] = useState(true);
   const [isSent, setIsSent] = useState(false);
   const [isAll, setIsAll] = useState(false);
-  const [count, setCount] = useState(0);
+  
   const email = useSelector((state) => state.auth.user_email);
+  const count = useSelector((state)=> state.mail.unreadcount)
+  const removeSpecialCharacters = (email) => {
+    return email.replace(/[@.]/g, "");
+  };
+  const emailId = removeSpecialCharacters(email);
+  const { inboxMail, error } = useFetchInboxMail(emailId);
 
 
 const open = useSelector((state) => state.mail.opendetail)
@@ -53,47 +60,7 @@ navigate('/mailhome')
 
   };
 
-  const removeSpecialCharacters = (email) => {
-    return email.replace(/[@.]/g, "");
-  };
 
-
-  const fetchInboxMail = useCallback(async () => {
-    const emailId = removeSpecialCharacters(email);
-    try {
-      const response = await fetch(
-        `https://react-mail-c09ee-default-rtdb.firebaseio.com/email/inbox/${emailId}.json`
-      );
-      if (!response.ok) {
-        throw new Error("Something went wrong.....Retrying!");
-      }
-      const data = await response.json();
-      const loadedInbox = [];
-      let unreadEmailCount = 0;
-      for (const key in data) {
-        loadedInbox.push({
-          id: key,
-          From: data[key].From,
-          Subject: data[key].Subject,
-          Message: data[key].Message,
-          To: data[key].To,
-          isRead: data[key].isRead,
-        });
-        if( data[key].isRead == false){
-          unreadEmailCount++;
-        }
-      }
-      dispatch(mailActions.InboxData(loadedInbox));
-      setCount(unreadEmailCount)
-      dispatch(mailActions.UnreadCount(unreadEmailCount))
-      
-
-    } catch (error) {}
-  }, [dispatch, email]);
-
-  useEffect(()=>{
-    fetchInboxMail()
-  },[])
 
   return (
     <>
