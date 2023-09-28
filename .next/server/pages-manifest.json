@@ -2,10 +2,6 @@
   "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
-  "/": "pages/index.js",
-  "/news": "pages/news.js",
-  "/next/dist/pages/_error": "pages/next/dist/pages/_error.js",
-  "/news/something-important": "pages/news/something-important.js",
-  "/aboutus": "pages/aboutus.js",
-  "/aboutus/developer": "pages/aboutus/developer.js"
+  "/news/[newsId]": "pages/news/[newsId].js",
+  "/aboutus/[devId]": "pages/aboutus/[devId].js"
 }

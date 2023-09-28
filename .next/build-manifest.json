@@ -14,11 +14,6 @@
     "static/development/_ssgManifest.js"
   ],
   "pages": {
-    "/": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/index.js"
-    ],
     "/_app": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
@@ -29,30 +24,15 @@
       "static/chunks/webpack.js",
       "static/chunks/pages/_error.js"
     ],
-    "/aboutus": [
+    "/aboutus/[devId]": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/aboutus.js"
+      "static/chunks/pages/aboutus/[devId].js"
     ],
-    "/aboutus/developer": [
+    "/news/[newsId]": [
       "static/chunks/main.js",
       "static/chunks/webpack.js",
-      "static/chunks/pages/aboutus/developer.js"
-    ],
-    "/news": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/news.js"
-    ],
-    "/news/something-important": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/news/something-important.js"
-    ],
-    "/next/dist/pages/_error": [
-      "static/chunks/main.js",
-      "static/chunks/webpack.js",
-      "static/chunks/pages/next/dist/pages/_error.js"
+      "static/chunks/pages/news/[newsId].js"
     ]
   },
   "ampFirstPages": []
