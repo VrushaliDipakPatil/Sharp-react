@@ -1,49 +1,58 @@
 import React from "react";
 import MeetupDetail from "../../components/meetups/MeetupDetail";
+import { MongoClient, ObjectId } from "mongodb";
 
-export default function MeetupList() {
+export default function MeetupList(props) {
   return (
     <MeetupDetail
-      image="https://media.istockphoto.com/id/1199224443/photo/annapolis-maryland-usa-downtown-view-over-main-street-with-the-state-house.jpg?s=612x612&w=0&k=20&c=B_1PwigAtLA5A5Y_RWFzq1GrpLNLUrMFGt4s0JJgPHw="
-      title="First Meetup"
-      address="some street 5, 12345 city"
-      description="this is forst meetup"
+      image= {props.meetupData.image}
+      title={props.meetupData.title}
+      address={props.meetupData.address}
+      description={props.meetupData.description}
     />
   );
 }
 
+export async function getStaticPaths() {
+  const client = await MongoClient.connect(
+    "mongodb+srv://vrushalip91097:vrushrani@cluster0.olkd5ds.mongodb.net/meetups?retryWrites=true&w=majority"
+  );
+  const db = client.db();
+  const meetupsCollection = db.collection("meetups");
 
-export async function getStaticPaths(){
-    return {
+  const meetups = await meetupsCollection.find({}, { _id: 1 }).toArray();
 
-        fallback: false,
-        paths : [
-            {params : {
-                meetupId : 'm1',
-            }},
-            {params : {
-                meetupId : 'm2',
-            }},
-            {params : {
-                meetupId : 'm3',
-            }}
-        ]
-    }
+  client.close();
+
+  return {
+    fallback: false,
+    paths: meetups.map((meetup) => ({
+      params: { meetupId: meetup._id.toString() },
+    })),
+  };
 }
 
 export async function getStaticProps(context) {
+  const meetupId = context.params.meetupId;
 
-const meetupId = context.params.meetupId;
+  const client = await MongoClient.connect(
+    "mongodb+srv://vrushalip91097:vrushrani@cluster0.olkd5ds.mongodb.net/meetups?retryWrites=true&w=majority"
+  );
+  const db = client.db();
+  const meetupsCollection = db.collection("meetups");
+
+  const selectedMeetup = await meetupsCollection.findOne({_id: new ObjectId(meetupId)});
+
+  client.close();
 
   return {
     props: {
       meetupData: {
-        image:
-          "https://media.istockphoto.com/id/1199224443/photo/annapolis-maryland-usa-downtown-view-over-main-street-with-the-state-house.jpg?s=612x612&w=0&k=20&c=B_1PwigAtLA5A5Y_RWFzq1GrpLNLUrMFGt4s0JJgPHw=",
-        id: meetupId,
-        title: "First Meetup",
-        address: "some street 5, 12345 city",
-        description: "this is forst meetup",
+        id: selectedMeetup._id.toString(),
+        title: selectedMeetup.title,
+        address: selectedMeetup.address,
+        description : selectedMeetup.description,
+        image : selectedMeetup.image
       },
     },
   };
