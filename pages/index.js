@@ -1,46 +1,80 @@
-// pages/index.js
+import { useRef, useState } from "react";
+import { MongoClient } from 'mongodb';
 
-import React, { useState, useEffect } from 'react';
-import TodoList from '../components/TodoList';
-import TodoForm from '../components/TodoForm';
-import axios from 'axios';
+export default function Home(props) {
+  const titleInputRef = useRef();
 
-const Home = () => {
-  const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  const fetchTodos = async () => {
-    try {
-      const response = await axios.get('/api/todo');
-      setTodos(response.data.data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching todos:', error);
-      setLoading(false);
+  async function addTodoHandler() {
+    const enteredTodo = {
+        title : titleInputRef.current.value,
+        completed: false
     }
-  };
+ 
+    const response = await fetch("/api/new-todo", {
+      method: "POST",
+      body: JSON.stringify(enteredTodo),
+      headers: { "Content-Type": "application/json" },
+    });
 
-  useEffect(() => {
-    fetchTodos();
-  }, []); // Fetch todos on component mount
+    const data = await response.json();
 
-  const handleTodoAdded = async () => {
-    // Re-fetch todos after successfully adding a new todo
-    await fetchTodos();
-  };
+    console.log(data);
+
+  }
+
+  async function deleteTodoHandler(todoId) {
+    const response = await fetch(`/api/delete-todo/${todoId}`, {
+      method: "DELETE",
+    });
+
+    if (response.ok) {
+      // Refresh the todo list after deletion
+      // You may want to fetch the updated todo list here or update the state to reflect the change
+      console.log("Todo deleted successfully");
+    } else {
+      console.error("Failed to delete todo");
+    }
+  }
 
   return (
-    <div>
-      <h1>Todo App</h1>
-      <TodoForm onTodoAdded={handleTodoAdded} />
+    <>
+      <div>
+        <h2>To-do List</h2>
+        <input type="text" ref={titleInputRef} />
+        <button onClick={addTodoHandler}> Add To-do</button>
+      </div>
+      {props.todoData.map((todo)=>(
+              <div key={todo.id}>
+              <input type="checkbox" />
+              <span>{todo.title} </span>
+              <button >Delete</button>
+            </div>
+      ))}
 
-      {loading ? (
-        <p>Loading todos...</p>
-      ) : (
-        <TodoList todos={todos} />
-      )}
-    </div>
+    </>
   );
-};
+}
 
-export default Home;
+export async function getStaticProps() {
+  const client = await MongoClient.connect(
+    "mongodb+srv://vrushalip91097:vrushrani@cluster0.olkd5ds.mongodb.net/todos?retryWrites=true&w=majority"
+  );
+  const db = client.db();
+  const todosCollection = db.collection("todos");
+
+  const todos = await todosCollection.find().toArray();
+
+  client.close();
+
+  return {
+    props: {
+        todoData: todos.map((todo) => ({
+        title: todo.title,
+        completed: todo.completed,
+        id: todo._id.toString(),
+      })),
+    },
+    revalidate: 1,
+  };
+}
