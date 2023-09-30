@@ -2,7 +2,28 @@ import { useRef, useState } from "react";
 import { MongoClient } from 'mongodb';
 
 export default function Home(props) {
+    const [editingTodoId, setEditingTodoId] = useState(null);
+  const [editedTodoText, setEditedTodoText] = useState('');
+
   const titleInputRef = useRef();
+
+  async function updateTodoNameHandler(todoId) {
+    const response = await fetch(`/api/updatename-todo/${todoId}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ title: editedTodoText }),
+    });
+
+    if (response.ok) {
+      // Refresh the todo list after updating completion status
+      // You may want to fetch the updated todo list here or update the state to reflect the change
+      console.log("Todo updated successfully");
+      setEditingTodoId(null);
+      setEditedTodoText('');
+    } else {
+      console.error("Failed to update todo");
+    }
+  }
 
 
   async function updateTodoHandler(todoId) {
@@ -60,14 +81,27 @@ export default function Home(props) {
         <input type="text" ref={titleInputRef} />
         <button onClick={addTodoHandler}> Add To-do</button>
       </div>
-      {props.todoData.map((todo)=>(
-              <div key={todo.id}>
-              <input type="checkbox" onClick={()=>updateTodoHandler(todo.id)}/>
+      {props.todoData.map((todo) => (
+        <div key={todo.id}>
+          {editingTodoId === todo.id ? (
+            <>
+              <input
+                type="text"
+                value={editedTodoText}
+                onChange={(e) => setEditedTodoText(e.target.value)}
+              />
+              <button onClick={() => updateTodoHandler(todo.id)}>Update</button>
+            </>
+          ) : (
+            <>
+              <input type="checkbox" onClick={() => updateTodoHandler(todo.id)} />
               <span>{todo.title} </span>
-              <button onClick={()=> deleteTodoHandler(todo.id)}>Delete</button>
-            </div>
+              <button onClick={() => deleteTodoHandler(todo.id)}>Delete</button>
+              <button onClick={() => { setEditingTodoId(todo.id); setEditedTodoText(todo.title); }}>Edit</button>
+            </>
+          )}
+        </div>
       ))}
-
     </>
   );
 }
