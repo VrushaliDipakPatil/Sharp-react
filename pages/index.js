@@ -5,6 +5,22 @@ export default function Home(props) {
   const titleInputRef = useRef();
 
 
+  async function updateTodoHandler(todoId) {
+    const response = await fetch(`/api/update-todo/${todoId}`, {
+      method: "PUT", // Use PUT method to update the todo
+      headers: { "Content-Type": "application/json" },
+    });
+  
+    if (response.ok) {
+      // Refresh the todo list after updating completion status
+      // You may want to fetch the updated todo list here or update the state to reflect the change
+      console.log("Todo completion status updated successfully");
+    } else {
+      console.error("Failed to update todo completion status");
+    }
+  }
+  
+
   async function addTodoHandler() {
     const enteredTodo = {
         title : titleInputRef.current.value,
@@ -46,9 +62,9 @@ export default function Home(props) {
       </div>
       {props.todoData.map((todo)=>(
               <div key={todo.id}>
-              <input type="checkbox" />
+              <input type="checkbox" onClick={()=>updateTodoHandler(todo.id)}/>
               <span>{todo.title} </span>
-              <button >Delete</button>
+              <button onClick={()=> deleteTodoHandler(todo.id)}>Delete</button>
             </div>
       ))}
 
